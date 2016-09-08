@@ -6,7 +6,7 @@
 #include "HeMusicPlayer.h"
 #include "HeMusicPlayerDlg.h"
 #include "afxdialogex.h"
-#include "Util/FileUtil.h"
+#include "Util\FileUtil.h"
 #include <locale.h>
 
 #ifdef _DEBUG
@@ -60,6 +60,7 @@ void CHeMusicPlayerDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_SONGLIST, m_listPlayList);
 	DDX_Control(pDX, IDC_SLIDER_VOICE, m_sliderVolumn);
+	DDX_Control(pDX, IDC_BUTTON_PLAY, m_btnPlay);
 }
 
 BEGIN_MESSAGE_MAP(CHeMusicPlayerDlg, CDialogEx)
@@ -170,6 +171,8 @@ HCURSOR CHeMusicPlayerDlg::OnQueryDragIcon()
 
 void CHeMusicPlayerDlg::InitCtrl()
 {
+	//Button 
+	//m_btnPlay.Init(IDI_ICON_PLAY, IDI_ICON_PLAY, L"播放");
 	//初始化播放列表
 	CRect rect;
 	m_listPlayList.GetClientRect(&rect);
@@ -184,7 +187,7 @@ void CHeMusicPlayerDlg::InitCtrl()
 
 void CHeMusicPlayerDlg::InitPlayer()
 {
-	m_player.InitPlayer();
+	m_player.InitPlayer(player_proc);
 }
 
 void CHeMusicPlayerDlg::InitPlayList()
@@ -206,6 +209,7 @@ void CHeMusicPlayerDlg::InitPlayList()
 		while (stdFile.ReadString(strPath))
 		{
 			strFileName = FileUtil::GetFileNameFromAbsPath(strPath);
+			strFileName = FileUtil::GetFileNameWithoutExtend(strFileName);
 			m_listPlayList.InsertItem(m_nListCount, strFileName);
 			m_listPlayList.SetItemText(m_nListCount, 1, strPath);
 			m_nListCount++;
@@ -238,6 +242,7 @@ void CHeMusicPlayerDlg::SavePlayList()
 		for (int i = 0; i < nlistSize; i++)
 		{
 			m_vecPlayList.at(i).GetMusicPath(strPath);
+			strPath += L"\n";
 			stdFile.WriteString(strPath);
 		}
 		stdFile.Close();
@@ -288,13 +293,17 @@ void CHeMusicPlayerDlg::OnBnClickedButton1()
 		CString pathName = fileDlg.GetPathName();
 		//Change the window's title to the opened file's title.
 		CString fileName = fileDlg.GetFileTitle();
+		fileName = FileUtil::GetFileNameWithoutExtend(fileName);
 		m_listPlayList.InsertItem(m_nListCount, fileName);
 		m_listPlayList.SetItemText(m_nListCount, 1, pathName);
 		m_nListCount++;
+
+		CMusicInfo mInfo;
+		mInfo.SetMusicPath(pathName);
+		m_vecPlayList.push_back(mInfo);
 	}
 
 }
-
 
 void CHeMusicPlayerDlg::OnHdnItemdblclickListSonglist(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -313,7 +322,7 @@ void CHeMusicPlayerDlg::OnHdnItemdblclickListSonglist(NMHDR *pNMHDR, LRESULT *pR
 void CHeMusicPlayerDlg::OnNMDblclkListSonglist(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	// TODO:  在此添加控件通知处理程序代码
+	
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView != NULL)
 	{
@@ -338,7 +347,7 @@ void CHeMusicPlayerDlg::OnBnClickedButtonFr()
 
 void CHeMusicPlayerDlg::OnBnClickedButtonFf()
 {
-	//快退 暂时默认5s
+	//快进 暂时默认5s
 	m_player.Seek(5);
 	if (m_playState == PlayState::PAUSE)
 		m_player.Pause();
@@ -394,4 +403,85 @@ void CHeMusicPlayerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBa
 
 	}
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CHeMusicPlayerDlg::player_proc(CMusicPlayer* pPlayer, PLAY_MSG msg, WPARAM wParam, LPARAM lParam, void* pVoid)
+{
+	CHeMusicPlayerDlg* pDlg = pPlayer->GetMainDlg();
+
+	CFrameWnd* pFrame = pPlayer->GetMainFrame();
+	MEDIA* media = (MEDIA*)wParam;
+	if (pFrame == NULL || media == NULL)
+		return;
+
+	switch (msg)
+	{
+
+	case MSG_OPEN:
+	{
+					 pFrame->m_pLblTotalTime->SetText(CMusicPlayer::TimeToString(media->totalTime.sec));
+					 pFrame->m_pSliderPlayProcess->SetMinValue(0);
+					 pFrame->m_pSliderPlayProcess->SetMaxValue(media->totalTime.sec);
+					 pFrame->m_pSliderPlayProcess->SetValue(0);
+	}
+		break;
+	case MSG_PLAYING:
+	{
+
+						CDuiString playTime = CMusicPlayer::TimeToString(lParam);
+						pFrame->m_pLblPlayTime->SetText(playTime.GetData());
+						pFrame->m_pSliderPlayProcess->SetValue((int)lParam);
+
+						CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(pFrame->GetCurMedia()->pControl, kMusicCurPosControlName));
+						CDuiString strSumTime = CMusicPlayer::TimeToString(media->totalTime.sec);
+						if (music_curpos != NULL)
+						{
+							TCHAR szBuf[MAX_PATH] = { 0 };
+							_stprintf_s(szBuf, MAX_PATH - 1, _T("%s/%s"), playTime.GetData(), strSumTime.GetData());
+							music_curpos->SetText(szBuf);
+						}
+	}
+		break;
+	case MSG_PLAY:
+	{
+					 media->playNum += 1;
+					 if (pFrame->m_pLblMainWndTitile != NULL)
+						 pFrame->m_pLblMainWndTitile->SetText(media->name.GetData());
+	}
+		break;
+	case MSG_PAUSE:
+	{
+
+	}
+		break;
+	case MSG_RESUME:
+	{
+	}
+		break;
+	case MSG_STOP:
+	{
+					 if (pPlayer->GetPlayState() == P_STOP)
+					 {
+						 pFrame->SetPlayBtnState(false);
+						 pFrame->m_pSliderPlayProcess->SetValue(0);
+
+						 pFrame->m_pLblPlayTime->SetText(_T("00:00"));
+
+						 CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(/*pCurMedia*/media->pControl, kMusicCurPosControlName));
+						 if (music_curpos != NULL)
+						 {
+							 music_curpos->SetText(_T("00:00"));
+						 }
+
+						 if (pFrame->m_pLblMainWndTitile != NULL)
+							 pFrame->m_pLblMainWndTitile->SetText(MainWndTitle);
+
+					 }
+	}
+		break;
+	case MSG_VOLUME:
+	{
+	}
+		break;
+	}
 }

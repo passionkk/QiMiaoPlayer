@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MusicInfo.h"
-
+#include "MsgDefine.h"
 
 CMusicInfo::CMusicInfo()
 {
@@ -138,6 +138,8 @@ CMusicPlayer::CMusicPlayer()
 	m_nVolumn = 0;
 	m_loopMode = LoopMode::SEQUENCE;
 	m_pMusicPlayer = NULL;
+	m_pMainDlg = NULL;
+	m_PlayProc = NULL;
 }
 
 CMusicPlayer::~CMusicPlayer()
@@ -150,10 +152,21 @@ CMusicPlayer::~CMusicPlayer()
 
 int __stdcall CallbackFunc(void* instance, void *user_data, TCallbackMessage message, unsigned int param1, unsigned int param2)
 {
+	ZPlay* myInstance = (ZPlay*)instance;
+	CMusicPlayer* player = (CMusicPlayer*)user_data;
+	if (message & MsgWaveBuffer)
+	{
+		UINT num = 0;
+		TStreamTime ttm;
+		player->GetZPlayer()->GetPosition(&ttm);
+		num = ttm.sec;
+		player->GetPlayProc()(player, MSG_PLAYING, 0, num, NULL);
+	}
 	return 0;
 }
 
-void CMusicPlayer::InitPlayer()
+
+void CMusicPlayer::InitPlayer(PLAY_PROC proc)
 {
 	if (m_pMusicPlayer == NULL)
 	{
@@ -163,6 +176,7 @@ void CMusicPlayer::InitPlayer()
 			m_pMusicPlayer->SetCallbackFunc(CallbackFunc, (TCallbackMessage)(MsgStop | MsgNextSong | MsgEnterVolumeSlideAsync | MsgExitVolumeSlideAsync | MsgEnterVolumeSlide | MsgExitVolumeSlide), 0);
 		}
 	}
+	m_PlayProc = proc;
 }
 void CMusicPlayer::Open(CString strMusicPath, bool bAutoPlay)
 {
@@ -172,8 +186,9 @@ void CMusicPlayer::Open(CString strMusicPath, bool bAutoPlay)
 		OutputDebugString(L"open file error");
 		return ;
 	}
+
 	if (bAutoPlay)
-		m_pMusicPlayer->Play();
+		Play();
 }
 
 void CMusicPlayer::Play()
@@ -231,4 +246,31 @@ void CMusicPlayer::SetVolumn(int nVolumn)
 int CMusicPlayer::GetVolumn()
 {
 	return m_nVolumn;
+}
+
+void CMusicPlayer::GetStreamInfo(TStreamInfo& Info)
+{
+	if (m_pMusicPlayer != NULL)
+	{
+		m_pMusicPlayer->GetStreamInfo(&Info);
+	}
+}
+
+int	 CMusicPlayer::GetID3Info(TID3InfoEx& Info)
+{
+	if (m_pMusicPlayer != NULL)
+	{
+		return m_pMusicPlayer->LoadID3Ex(&Info, 0);
+	}
+	return 0;
+}
+
+ZPlay* CMusicPlayer::GetZPlayer()
+{
+	return m_pMusicPlayer;
+}
+
+PLAY_PROC CMusicPlayer::GetPlayProc()
+{
+	return m_PlayProc;
 }

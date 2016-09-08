@@ -110,6 +110,38 @@ enum LoopMode{
 	LISTLOOP
 };
 
+enum PLAY_MSG
+{
+	MSG_OPEN = 0,    //打开
+	MSG_PLAY,        //播放
+	MSG_PLAYING,     //正在播放
+	MSG_PAUSE,       //暂停
+	MSG_RESUME,      //继续
+	MSG_STOP,        //停止
+	MSG_SEEK,        //播放位置
+	MSG_PREV,        //上一首
+	MSG_NEXT,        //下一首
+	MSG_VOLUME,      //音量
+	MSG_SET_LOOP     //设置循环状态
+};
+
+typedef struct tagMEDIA
+{
+	CString		name;				//名称
+	CString		pathFileName;		//文件路径名
+	CString		logoPath;			//logo图片的路径
+	CString		exName;				//扩展名
+	UINT		playNum;			//播放次数
+	CString		size;				//大小  (M)
+	TStreamTime totalTime;			//总时间	
+}MEDIA;
+
+
+class CMusicPlayer;
+class CHeMusicPlayerDlg;
+//回调函数指针
+typedef void(*PLAY_PROC)(CMusicPlayer*, PLAY_MSG, WPARAM, LPARAM, void*);
+
 class CMusicInfo
 {
 public:
@@ -133,8 +165,9 @@ public:
 	virtual ~CMusicPlayer();
 
 public:
+	void SetWndHwnd(const HWND& hwnd);
 	// callback function prototype, need this to use callback message to push more data into managed stream
-	void InitPlayer();
+	void InitPlayer(PLAY_PROC proc);
 	void Open(CString strMusicPath, bool bAutoPlay = true);
 	void Play();		//播放
 	void Pause();		//暂停
@@ -145,10 +178,19 @@ public:
 	void SetLoopMode(LoopMode loopMode);	//设置循环模式
 	void SetVolumn(int nVolumn);	//设置音量
 	int GetVolumn();
+	void GetStreamInfo(TStreamInfo& Info);	//获取音频流信息
+	int	 GetID3Info(TID3InfoEx& Info);		//获取ID3结构, return 0 fail, 1 success.
 	
+	ZPlay* GetZPlayer();	//获取ZPlayer指针，供CallbackFunc回调函数使用
+	PLAY_PROC GetPlayProc();	//获取窗口回调函数，供CallbackFunc回调函数使用
+
+	CHeMusicPlayerDlg* GetMainDlg();	//获取主对话框指针
 private:
 	ZPlay*		m_pMusicPlayer;
+	PLAY_PROC	m_PlayProc;				//播放回调函数指针
 	CString		m_strMusicPath;
 	int			m_nVolumn;
 	LoopMode	m_loopMode;
+	CHeMusicPlayerDlg*	m_pMainDlg;			//主窗体句柄
+	tagMEDIA	m_stMedia;
 };

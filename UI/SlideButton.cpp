@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "MyPlayer.h"
 #include "SlideButton.h"
 
 #ifdef _DEBUG
@@ -79,7 +78,7 @@ void CSlideButton::PreSubclassWindow()
 	m_ToolTip.Create(this);
 	m_ToolTip.SetDelayTime(100);
 	m_ToolTip.SetMaxTipWidth(200);
-	m_ToolTip.AddTool(this,"",rect,ID_TIP);
+	m_ToolTip.AddTool(this, L"",rect,ID_TIP);
 
 	CButton::PreSubclassWindow();
 }

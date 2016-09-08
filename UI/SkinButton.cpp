@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "MyPlayer.h"
 #include "SkinButton.h"
 
 #ifdef _DEBUG
@@ -118,7 +117,7 @@ void CSkinButton::PreSubclassWindow()
 	m_ToolTip.Create(this);
 	m_ToolTip.SetDelayTime(100);
 	m_ToolTip.SetMaxTipWidth(200);
-	m_ToolTip.AddTool(this,"",rect,TIP_ID);
+	m_ToolTip.AddTool(this, L"",rect,TIP_ID);
 
 	CButton::PreSubclassWindow();
 }

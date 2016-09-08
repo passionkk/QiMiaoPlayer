@@ -19,6 +19,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{5e6028af-cd21-4017-9502-c38dfdb7f8c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{a33ed3e6-bf9a-4959-870b-49de66e05aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MsgDefine">
+      <UniqueIdentifier>{aa1b7eff-1079-41c8-84e0-e6621998044f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +60,18 @@
     <ClInclude Include="Util\FileUtil.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="UI\SkinButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\SlideButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\VolumeButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MsgDefine.h">
+      <Filter>MsgDefine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeMusicPlayer.cpp">
@@ -77,6 +95,15 @@
     <ClCompile Include="Util\FileUtil.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="UI\SkinButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\SlideButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\VolumeButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HeMusicPlayer.rc">
@@ -90,6 +117,30 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\HeMusicPlayer.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\fastForward.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\fastReward.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\nextSong.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\pause.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\play.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\preSong.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\stop.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon3.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

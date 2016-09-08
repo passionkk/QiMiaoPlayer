@@ -89,3 +89,14 @@ void FileUtil::ReadStringCharToUnicode(CString &str)
 	szBuf = NULL;
 	return;
 }
+
+CString FileUtil::GetFileNameWithoutExtend(const CString& strFileName)
+{
+	CString strRet = L"";
+	int nIndex = strFileName.ReverseFind('.');
+	if (nIndex != -1)
+	{
+		strRet = strFileName.Left(nIndex);
+	}
+	return strRet;
+}

@@ -7,6 +7,8 @@
 #include "MusicInfo.h"
 #include "afxcmn.h"
 #include <vector>
+#include "afxwin.h"
+#include "UI\SkinButton.h"
 // CHeMusicPlayerDlg 对话框
 class CHeMusicPlayerDlg : public CDialogEx
 {
@@ -39,6 +41,15 @@ public:
 	afx_msg void OnNMDblclkListSonglist(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedButtonFr();
 	afx_msg void OnBnClickedButtonFf();
+	afx_msg void OnClose();
+	afx_msg void OnBnClickedButtonPrevone();
+	afx_msg void OnBnClickedButtonNextone();
+	afx_msg void OnTRBNThumbPosChangingSliderVoice(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+
+
+	//歌曲播放回调函数
+	static void player_proc(CMusicPlayer* pPlayer, PLAY_MSG msg, WPARAM wParam, LPARAM lParam, void* pVoid);
 
 protected:
 	void InitCtrl();		//对话框初始化控件
@@ -55,11 +66,7 @@ private:
 	LoopMode		m_loopMode;
 	CString			m_strCurMusicPath;	//当前播放的歌曲
 	std::vector<CMusicInfo>	m_vecPlayList;	//播放列表
+	CSliderCtrl		m_sliderVolumn;
 public:
-	afx_msg void OnClose();
-	afx_msg void OnBnClickedButtonPrevone();
-	afx_msg void OnBnClickedButtonNextone();
-	CSliderCtrl m_sliderVolumn;
-	afx_msg void OnTRBNThumbPosChangingSliderVoice(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	CSkinButton		m_btnPlay;
 };
