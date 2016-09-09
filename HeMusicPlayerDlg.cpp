@@ -1,5 +1,5 @@
-
-// HeMusicPlayerDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿
+// HeMusicPlayerDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -13,20 +13,20 @@
 #define new DEBUG_NEW
 #endif
 
-// ÓÃÓÚÓ¦ÓÃ³ÌĞò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºåº”ç”¨ç¨‹åºâ€œå…³äºâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -43,7 +43,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
-// CHeMusicPlayerDlg ¶Ô»°¿ò
+// CHeMusicPlayerDlg å¯¹è¯æ¡†
 
 CHeMusicPlayerDlg::CHeMusicPlayerDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CHeMusicPlayerDlg::IDD, pParent)
@@ -53,6 +53,8 @@ CHeMusicPlayerDlg::CHeMusicPlayerDlg(CWnd* pParent /*=NULL*/)
 	m_playState = PlayState::STOP;
 	m_loopMode = LoopMode::SEQUENCE;
 	m_vecPlayList.clear();
+	m_nCurPlaySec = 0;
+	m_bPressProgressSlider = false;
 }
 
 void CHeMusicPlayerDlg::DoDataExchange(CDataExchange* pDX)
@@ -61,6 +63,9 @@ void CHeMusicPlayerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST_SONGLIST, m_listPlayList);
 	DDX_Control(pDX, IDC_SLIDER_VOICE, m_sliderVolumn);
 	DDX_Control(pDX, IDC_BUTTON_PLAY, m_btnPlay);
+	DDX_Control(pDX, IDC_SLIDER_PROGRESS, m_sliderProgress);
+	DDX_Control(pDX, IDC_STATIC_TIME, m_staticPlayTime);
+	DDX_Control(pDX, IDC_STATIC_PIC_SONG, m_picSong);
 }
 
 BEGIN_MESSAGE_MAP(CHeMusicPlayerDlg, CDialogEx)
@@ -81,15 +86,15 @@ BEGIN_MESSAGE_MAP(CHeMusicPlayerDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CHeMusicPlayerDlg ÏûÏ¢´¦Àí³ÌĞò
+// CHeMusicPlayerDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CHeMusicPlayerDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+	// å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -107,17 +112,17 @@ BOOL CHeMusicPlayerDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£  µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚  å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
+	// TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
 	InitCtrl();
 	InitPlayer();
 	InitPlayList();
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CHeMusicPlayerDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -133,19 +138,19 @@ void CHeMusicPlayerDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£  ¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚  å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CHeMusicPlayerDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -153,7 +158,7 @@ void CHeMusicPlayerDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -162,8 +167,8 @@ void CHeMusicPlayerDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CHeMusicPlayerDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -172,22 +177,32 @@ HCURSOR CHeMusicPlayerDlg::OnQueryDragIcon()
 void CHeMusicPlayerDlg::InitCtrl()
 {
 	//Button 
-	//m_btnPlay.Init(IDI_ICON_PLAY, IDI_ICON_PLAY, L"²¥·Å");
-	//³õÊ¼»¯²¥·ÅÁĞ±í
+	//m_btnPlay.Init(IDI_ICON_PLAY, IDI_ICON_PLAY, L"æ’­æ”¾");
+	//åˆå§‹åŒ–æ’­æ”¾åˆ—è¡¨
 	CRect rect;
 	m_listPlayList.GetClientRect(&rect);
-	m_listPlayList.InsertColumn(0, L"¸èÇúÃû", LVCFMT_CENTER, rect.Width()/3);
-	m_listPlayList.InsertColumn(1, L"Â·¾¶", LVCFMT_CENTER, rect.Width() * 2/3);
+	m_listPlayList.InsertColumn(0, L"æ­Œæ›²å", LVCFMT_CENTER, rect.Width()/3);
+	m_listPlayList.InsertColumn(1, L"è·¯å¾„", LVCFMT_CENTER, rect.Width() * 2/3);
 	m_listPlayList.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
 
-	//ÒôÁ¿
+	//éŸ³é‡
 	m_sliderVolumn.SetRange(0, 100);
 	m_sliderVolumn.SetPos(30);
+
+	m_sliderProgress.SetRange(0, 500);
+
+	//æ’­æ”¾æ—¶é•¿
+	/*m_staticPlayTime.SetTextColor(RGB(0, 128, 255));
+	m_staticPlayTime.SetFontSize(10);
+	m_staticPlayTime.SetFontBold(TRUE);
+	m_staticPlayTime.SetTransparent(TRUE);*/
+	
 }
 
 void CHeMusicPlayerDlg::InitPlayer()
 {
 	m_player.InitPlayer(player_proc);
+	m_player.SetMainDlg(this);
 }
 
 void CHeMusicPlayerDlg::InitPlayList()
@@ -218,8 +233,8 @@ void CHeMusicPlayerDlg::InitPlayList()
 			m_vecPlayList.push_back(mInfo);
 		}
 		stdFile.Close();
-		setlocale(LC_CTYPE, old_locale); //»¹Ô­ÓïÑÔÇøÓòµÄÉèÖÃ 
-		free(old_locale);//»¹Ô­ÇøÓòÉè¶¨
+		setlocale(LC_CTYPE, old_locale); //è¿˜åŸè¯­è¨€åŒºåŸŸçš„è®¾ç½® 
+		free(old_locale);//è¿˜åŸåŒºåŸŸè®¾å®š
 	}
 }
 
@@ -247,8 +262,8 @@ void CHeMusicPlayerDlg::SavePlayList()
 		}
 		stdFile.Close();
 	}
-	setlocale(LC_CTYPE, old_locale); //»¹Ô­ÓïÑÔÇøÓòµÄÉèÖÃ 
-	free(old_locale);//»¹Ô­ÇøÓòÉè¶¨
+	setlocale(LC_CTYPE, old_locale); //è¿˜åŸè¯­è¨€åŒºåŸŸçš„è®¾ç½® 
+	free(old_locale);//è¿˜åŸåŒºåŸŸè®¾å®š
 }
 
 void CHeMusicPlayerDlg::OnBnClickedButtonPlay()
@@ -265,7 +280,7 @@ void CHeMusicPlayerDlg::OnBnClickedButtonPlay()
 	}
 	else
 	{	
-		//Í£Ö¹×´Ì¬
+		//åœæ­¢çŠ¶æ€
 		int nCurSel = m_listPlayList.GetSelectionMark();
 		if (nCurSel != -1)
 		{
@@ -308,7 +323,7 @@ void CHeMusicPlayerDlg::OnBnClickedButton1()
 void CHeMusicPlayerDlg::OnHdnItemdblclickListSonglist(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	if (phdr != NULL)
 	{
 		int nDbClkItem = phdr->iItem;
@@ -338,8 +353,8 @@ void CHeMusicPlayerDlg::OnNMDblclkListSonglist(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CHeMusicPlayerDlg::OnBnClickedButtonFr()
 {
-	//¿ìÍË ÔİÊ±Ä¬ÈÏ5s
-	m_player.Seek(-5);
+	//å¿«é€€ æš‚æ—¶é»˜è®¤5s
+	m_player.Seek(5, smFromCurrentBackward);
 	if (m_playState == PlayState::PAUSE)
 		m_player.Pause();
 }
@@ -347,8 +362,8 @@ void CHeMusicPlayerDlg::OnBnClickedButtonFr()
 
 void CHeMusicPlayerDlg::OnBnClickedButtonFf()
 {
-	//¿ì½ø ÔİÊ±Ä¬ÈÏ5s
-	m_player.Seek(5);
+	//å¿«è¿› æš‚æ—¶é»˜è®¤5s
+	m_player.Seek(5, smFromCurrentForward);
 	if (m_playState == PlayState::PAUSE)
 		m_player.Pause();
 }
@@ -364,22 +379,22 @@ void CHeMusicPlayerDlg::OnClose()
 
 void CHeMusicPlayerDlg::OnBnClickedButtonPrevone()
 {
-	// ÉÏÒ»Çú
+	// ä¸Šä¸€æ›²
 	m_player.PlayPreSong();
 }
 
 
 void CHeMusicPlayerDlg::OnBnClickedButtonNextone()
 {
-	// ÏÂÒ»Çú
+	// ä¸‹ä¸€æ›²
 	m_player.PlayNextSong();
 }
 
 
 void CHeMusicPlayerDlg::OnTRBNThumbPosChangingSliderVoice(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	// ´Ë¹¦ÄÜÒªÇó Windows Vista »ò¸ü¸ß°æ±¾¡£
-	// _WIN32_WINNT ·ûºÅ±ØĞë >= 0x0600¡£
+	// æ­¤åŠŸèƒ½è¦æ±‚ Windows Vista æˆ–æ›´é«˜ç‰ˆæœ¬ã€‚
+	// _WIN32_WINNT ç¬¦å·å¿…é¡» >= 0x0600ã€‚
 	NMTRBTHUMBPOSCHANGING *pNMTPC = reinterpret_cast<NMTRBTHUMBPOSCHANGING *>(pNMHDR);
 	// 
 
@@ -389,18 +404,56 @@ void CHeMusicPlayerDlg::OnTRBNThumbPosChangingSliderVoice(NMHDR *pNMHDR, LRESULT
 
 void CHeMusicPlayerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// TODO:  ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO:  åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	int nCtrlID = pScrollBar->GetDlgCtrlID();
-	int nVolumn = 0;
 	switch (nCtrlID)
 	{
-	case IDC_SLIDER_VOICE:
-		nVolumn = m_sliderVolumn.GetPos();
-		m_player.SetVolumn(nVolumn);
-		break;
-	default:
-		break;
+		case IDC_SLIDER_VOICE:
+		{
+			int nVolumn = m_sliderVolumn.GetPos();
+			m_player.SetVolumn(nVolumn);
+		}
+		break; 
+		case IDC_SLIDER_PROGRESS:
+		{	
+			int nSeekPos = m_sliderProgress.GetPos();
+			CString strPos;
+			strPos.Format(L"Seek to Pos :%d\n", nSeekPos);
 
+			if (nSBCode == TB_THUMBPOSITION || nSBCode == TB_PAGEUP || nSBCode == TB_PAGEDOWN)
+			{
+				{
+					CPoint ptCursor;
+					GetCursorPos(&ptCursor);
+					CRect rcSlider;
+					int nMin, nMax;
+					m_sliderProgress.GetRange(nMin, nMax);
+					m_sliderProgress.ScreenToClient(&ptCursor);
+					m_sliderProgress.GetClientRect(&rcSlider);
+					int nCurPos = nMin + ptCursor.x * (nMax - nMin) / rcSlider.Width();
+					if (nCurPos > nMax)
+						nCurPos = nMax;
+					else if (nCurPos < nMin)
+						nCurPos = nMin;
+					nSeekPos = nCurPos;
+				}
+
+				m_player.Seek(nSeekPos, smFromBeginning);
+				m_bPressProgressSlider = false;
+				//OutputDebugString(L"onHScroll...set true.\n");
+			}
+			if (nSBCode == TB_THUMBTRACK)
+			{
+				m_staticPlayTime.SetWindowText(CHeMusicPlayerDlg::SecToTime(nSeekPos));
+				m_bPressProgressSlider = true;
+				//OutputDebugString(L"onHScroll...set false.\n");
+			}
+
+			OutputDebugString(strPos);
+		}	
+		break;
+		default:
+			break;
 	}
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }
@@ -409,79 +462,118 @@ void CHeMusicPlayerDlg::player_proc(CMusicPlayer* pPlayer, PLAY_MSG msg, WPARAM 
 {
 	CHeMusicPlayerDlg* pDlg = pPlayer->GetMainDlg();
 
-	CFrameWnd* pFrame = pPlayer->GetMainFrame();
-	MEDIA* media = (MEDIA*)wParam;
-	if (pFrame == NULL || media == NULL)
+	stMediaInfo* pMediaInfo = (stMediaInfo*)wParam;
+	int nLength = 0;
+	if (pMediaInfo != NULL)
+		nLength = pMediaInfo->streamInfo.Length.sec;
+	if (pDlg == NULL)
 		return;
 
 	switch (msg)
 	{
-
-	case MSG_OPEN:
-	{
-					 pFrame->m_pLblTotalTime->SetText(CMusicPlayer::TimeToString(media->totalTime.sec));
-					 pFrame->m_pSliderPlayProcess->SetMinValue(0);
-					 pFrame->m_pSliderPlayProcess->SetMaxValue(media->totalTime.sec);
-					 pFrame->m_pSliderPlayProcess->SetValue(0);
-	}
+		case MSG_OPEN:
+		{
+			pDlg->m_sliderProgress.SetRange(0, nLength);
+			pDlg->m_sliderProgress.SetPos(0);
+			pDlg->m_nCurPlaySec = 0;
+			/*pFrame->m_pLblTotalTime->SetText(CMusicPlayer::TimeToString(media->totalTime.sec));
+			pFrame->m_pSliderPlayProcess->SetMinValue(0);
+			pFrame->m_pSliderPlayProcess->SetMaxValue(media->totalTime.sec);
+			pFrame->m_pSliderPlayProcess->SetValue(0);*/
+		}
 		break;
-	case MSG_PLAYING:
-	{
+		case MSG_PLAYING:
+		{
+			if (!pDlg->m_bPressProgressSlider)
+			{
+				pDlg->m_sliderProgress.SetPos((int)lParam);
+				CString strTime = CHeMusicPlayerDlg::SecToTime((int)lParam);
+				pDlg->m_staticPlayTime.SetWindowText(strTime);
+				pDlg->m_nCurPlaySec = (int)lParam;
+				//OutputDebugString(L"player_proc false.\n");
+			}
+			/*CString playTime = CMusicPlayer::TimeToString(lParam);
+			pFrame->m_pLblPlayTime->SetText(playTime.GetData());
+			pFrame->m_pSliderPlayProcess->SetValue((int)lParam);
 
-						CDuiString playTime = CMusicPlayer::TimeToString(lParam);
-						pFrame->m_pLblPlayTime->SetText(playTime.GetData());
-						pFrame->m_pSliderPlayProcess->SetValue((int)lParam);
-
-						CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(pFrame->GetCurMedia()->pControl, kMusicCurPosControlName));
-						CDuiString strSumTime = CMusicPlayer::TimeToString(media->totalTime.sec);
-						if (music_curpos != NULL)
-						{
-							TCHAR szBuf[MAX_PATH] = { 0 };
-							_stprintf_s(szBuf, MAX_PATH - 1, _T("%s/%s"), playTime.GetData(), strSumTime.GetData());
-							music_curpos->SetText(szBuf);
-						}
-	}
+			CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(pFrame->GetCurMedia()->pControl, kMusicCurPosControlName));
+			CDuiString strSumTime = CMusicPlayer::TimeToString(media->totalTime.sec);
+			if (music_curpos != NULL)
+			{
+				TCHAR szBuf[MAX_PATH] = { 0 };
+				_stprintf_s(szBuf, MAX_PATH - 1, _T("%s/%s"), playTime.GetData(), strSumTime.GetData());
+				music_curpos->SetText(szBuf);
+			}*/
+		}
 		break;
-	case MSG_PLAY:
-	{
-					 media->playNum += 1;
-					 if (pFrame->m_pLblMainWndTitile != NULL)
-						 pFrame->m_pLblMainWndTitile->SetText(media->name.GetData());
-	}
+		case MSG_PLAY:
+		{
+			/*media->playNum += 1;
+			if (pFrame->m_pLblMainWndTitile != NULL)
+				pFrame->m_pLblMainWndTitile->SetText(media->name.GetData());*/
+		}
 		break;
-	case MSG_PAUSE:
-	{
-
-	}
+		case MSG_PAUSE:
+		{
+		}
 		break;
-	case MSG_RESUME:
-	{
-	}
+		case MSG_RESUME:
+		{
+		}
 		break;
-	case MSG_STOP:
-	{
-					 if (pPlayer->GetPlayState() == P_STOP)
-					 {
-						 pFrame->SetPlayBtnState(false);
-						 pFrame->m_pSliderPlayProcess->SetValue(0);
+		case MSG_STOP:
+		{
+			//if (pPlayer->GetPlayState() == P_STOP)
+			//{
+			//	 pFrame->SetPlayBtnState(false);
+			//	 pFrame->m_pSliderPlayProcess->SetValue(0);
 
-						 pFrame->m_pLblPlayTime->SetText(_T("00:00"));
+			//	 pFrame->m_pLblPlayTime->SetText(_T("00:00"));
 
-						 CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(/*pCurMedia*/media->pControl, kMusicCurPosControlName));
-						 if (music_curpos != NULL)
-						 {
-							 music_curpos->SetText(_T("00:00"));
-						 }
+			//	 CLabelUI* music_curpos = static_cast<CLabelUI*>(pFrame->GetMainWndPaintManager()->FindSubControlByName(/*pCurMedia*/media->pControl, kMusicCurPosControlName));
+			//	 if (music_curpos != NULL)
+			//	 {
+			//		 music_curpos->SetText(_T("00:00"));
+			//	 }
 
-						 if (pFrame->m_pLblMainWndTitile != NULL)
-							 pFrame->m_pLblMainWndTitile->SetText(MainWndTitle);
+			//	 if (pFrame->m_pLblMainWndTitile != NULL)
+			//		 pFrame->m_pLblMainWndTitile->SetText(MainWndTitle);
 
-					 }
-	}
+			//}
+		}
 		break;
-	case MSG_VOLUME:
-	{
-	}
+		case MSG_VOLUME:
+		{
+		}
 		break;
+		}
+	
+	delete pMediaInfo;
+}
+
+CString CHeMusicPlayerDlg::SecToTime(int nSec)
+{
+	CString sTime, sMin, sSec;
+	if (nSec / 60 < 10)
+	{
+		sMin.Format(L"0%d", nSec / 60);
 	}
+	else
+	{
+		sMin.Format(L"%d", nSec / 60);
+	}
+
+	if (nSec % 60 < 10)
+	{
+		sSec.Format(L"0%d", nSec % 60);
+	}
+	else
+	{
+		sSec.Format(L"%d", nSec % 60);
+	}
+
+	sTime.Append(sMin);
+	sTime.Append(L":");
+	sTime.Append(sSec);
+	return sTime;
 }

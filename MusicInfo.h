@@ -136,6 +136,11 @@ typedef struct tagMEDIA
 	TStreamTime totalTime;			//总时间	
 }MEDIA;
 
+typedef struct _stMediaInfo_
+{
+	TID3InfoEx ID3Info;				//ID3 信息
+	TStreamInfo streamInfo;			//stream 信息
+}stMediaInfo;
 
 class CMusicPlayer;
 class CHeMusicPlayerDlg;
@@ -165,14 +170,14 @@ public:
 	virtual ~CMusicPlayer();
 
 public:
-	void SetWndHwnd(const HWND& hwnd);
+	void SetMainDlg(CHeMusicPlayerDlg*	pDlg);
 	// callback function prototype, need this to use callback message to push more data into managed stream
 	void InitPlayer(PLAY_PROC proc);
 	void Open(CString strMusicPath, bool bAutoPlay = true);
 	void Play();		//播放
 	void Pause();		//暂停
 	void Stop();		//停止播放
-	void Seek(int nSec);	//seek 单位秒
+	void Seek(int nSec, TSeekMethod emFrom = smFromBeginning);	//seek 单位秒, nFrom, 0当前位置，1文件头
 	void PlayPreSong();	//上一曲
 	void PlayNextSong();	//下一曲
 	void SetLoopMode(LoopMode loopMode);	//设置循环模式

@@ -4,11 +4,14 @@
 
 #pragma once
 
-#include "MusicInfo.h"
 #include "afxcmn.h"
 #include <vector>
 #include "afxwin.h"
+#include "resource.h"
+#include "MusicInfo.h"
 #include "UI\SkinButton.h"
+#include "UI\Label.h"
+#include "UI\StaticTime.h"
 // CHeMusicPlayerDlg 对话框
 class CHeMusicPlayerDlg : public CDialogEx
 {
@@ -51,6 +54,8 @@ public:
 	//歌曲播放回调函数
 	static void player_proc(CMusicPlayer* pPlayer, PLAY_MSG msg, WPARAM wParam, LPARAM lParam, void* pVoid);
 
+	//时间转换函数
+	static CString SecToTime(int nSec);
 protected:
 	void InitCtrl();		//对话框初始化控件
 	void InitPlayer();		//初始化播放器
@@ -69,4 +74,10 @@ private:
 	CSliderCtrl		m_sliderVolumn;
 public:
 	CSkinButton		m_btnPlay;
+	CSliderCtrl		m_sliderProgress;
+	// 歌曲播放时长
+	CStatic			m_staticPlayTime;	//这里暂时使用默认的 static控件，未找到合适的控件
+	int				m_nCurPlaySec;		//当前播放时长
+	bool			m_bPressProgressSlider;	//左键按下进度滑块
+	CStatic			m_picSong;
 };

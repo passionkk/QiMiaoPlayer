@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MusicInfo.h"
 #include "MsgDefine.h"
+#include "HeMusicPlayerDlg.h"
 
 CMusicInfo::CMusicInfo()
 {
@@ -154,6 +155,8 @@ int __stdcall CallbackFunc(void* instance, void *user_data, TCallbackMessage mes
 {
 	ZPlay* myInstance = (ZPlay*)instance;
 	CMusicPlayer* player = (CMusicPlayer*)user_data;
+	if (player == NULL)
+		return -1;
 	if (message & MsgWaveBuffer)
 	{
 		UINT num = 0;
@@ -173,7 +176,10 @@ void CMusicPlayer::InitPlayer(PLAY_PROC proc)
 		m_pMusicPlayer = CreateZPlay();
 		if (m_pMusicPlayer != NULL)
 		{
-			m_pMusicPlayer->SetCallbackFunc(CallbackFunc, (TCallbackMessage)(MsgStop | MsgNextSong | MsgEnterVolumeSlideAsync | MsgExitVolumeSlideAsync | MsgEnterVolumeSlide | MsgExitVolumeSlide), 0);
+			m_pMusicPlayer->SetCallbackFunc(
+				CallbackFunc, 
+				(TCallbackMessage)(MsgStop | MsgNextSong | MsgEnterVolumeSlideAsync | MsgExitVolumeSlideAsync | MsgEnterVolumeSlide | MsgExitVolumeSlide | MsgWaveBuffer),
+				this);//这个this 就是回调函数中 user_ data
 		}
 	}
 	m_PlayProc = proc;
@@ -189,6 +195,26 @@ void CMusicPlayer::Open(CString strMusicPath, bool bAutoPlay)
 
 	if (bAutoPlay)
 		Play();
+	stMediaInfo* mediaInfo = new stMediaInfo;
+	memset(mediaInfo, 0, sizeof(stMediaInfo));
+	//StreamInfo 
+	m_pMusicPlayer->GetStreamInfo(&mediaInfo->streamInfo);
+	//ID3Info
+	int nRet = m_pMusicPlayer->LoadID3Ex(&mediaInfo->ID3Info, 1);
+
+	if (mediaInfo->ID3Info.Picture.CanDrawPicture)
+	{
+		RECT rect;
+		m_pMainDlg->m_picSong.GetWindowRect(&rect);
+		m_pMainDlg->ScreenToClient(&rect);
+		HWND hWnd = m_pMainDlg->m_picSong.GetSafeHwnd();
+		nRet = m_pMusicPlayer->DrawBitmapToHWND(
+			hWnd,
+			0, 0, rect.right - rect.left, rect.bottom - rect.top,
+			mediaInfo->ID3Info.Picture.hBitmap
+			);
+	}
+	m_PlayProc(this, MSG_OPEN, (WPARAM)mediaInfo, NULL, NULL);
 }
 
 void CMusicPlayer::Play()
@@ -206,14 +232,14 @@ void CMusicPlayer::Stop()
 	m_pMusicPlayer->Stop();
 }
 
-void CMusicPlayer::Seek(int nSec)
+void CMusicPlayer::Seek(int nSec, TSeekMethod emFrom)
 {
+	int nRet = 0;
 	if (m_pMusicPlayer != NULL)
 	{
 		TStreamTime stTST;
-		stTST.sec = abs(nSec);
-		
-		m_pMusicPlayer->Seek(tfSecond, &stTST, nSec > 0 ? smFromCurrentBackward : smFromCurrentForward);
+		stTST.sec = nSec;
+		nRet = m_pMusicPlayer->Seek(tfSecond, &stTST, emFrom);
 	}
 }
 
@@ -273,4 +299,14 @@ ZPlay* CMusicPlayer::GetZPlayer()
 PLAY_PROC CMusicPlayer::GetPlayProc()
 {
 	return m_PlayProc;
+}
+
+void CMusicPlayer::SetMainDlg(CHeMusicPlayerDlg* pDlg)
+{
+	m_pMainDlg = pDlg;
+}
+
+CHeMusicPlayerDlg* CMusicPlayer::GetMainDlg()
+{
+	return m_pMainDlg;
 }

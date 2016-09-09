@@ -72,6 +72,15 @@
     <ClInclude Include="MsgDefine.h">
       <Filter>MsgDefine</Filter>
     </ClInclude>
+    <ClInclude Include="UI\Label.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PictureCtrl.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\StaticTime.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeMusicPlayer.cpp">
@@ -103,6 +112,15 @@
     </ClCompile>
     <ClCompile Include="UI\VolumeButton.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Label.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PictureCtrl.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\StaticTime.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +159,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\icon3.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\1.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
