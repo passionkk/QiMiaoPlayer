@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="310,186">
+    <VerticalLayout width="310" height="186" bkimage="Skin\player_skin.bmp">
+        <HorizontalLayout width="310" height="5" />
+        <HorizontalLayout width="310" height="25">
+            <HorizontalLayout width="230" height="25" />
+            <HorizontalLayout width="79" height="25">
+                <Button name="minimode" width="19" height="17" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;minimode.bmp&apos; source=&apos;0,0,17,15&apos;" hotimage="file=&apos;minimode.bmp&apos; source=&apos;17,0,34,15&apos;" pushedimage="file=&apos;minimode.bmp&apos; source=&apos;34,0,51,15&apos;" />
+                <Button name="minisize" width="19" height="17" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;Skin\minimize.bmp&apos; source=&apos;0,0,17,15&apos;" hotimage="file=&apos;Skin\minimize.bmp&apos; source=&apos;17,0,34,15&apos;" pushedimage="file=&apos;Skin\minimize.bmp&apos; source=&apos;34,0,51,15&apos;" focusedimage="file=&apos;Skin\minimize.bmp&apos; source=&apos;51,0,68,15&apos;" />
+                <Button name="close" width="19" height="17" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" 
+				normalimage="file=&apos;Skin\close.bmp&apos; source=&apos;2,0,15,15&apos;" hotimage="file=&apos;Skin\close.bmp&apos; source=&apos;17,0,34,15&apos;" pushedimage="file=&apos;Skin\close.bmp&apos; source=&apos;34,0,51,15&apos;" focusedimage="file=&apos;Skin\close.bmp&apos; source=&apos;51,0,68,15&apos;" />
+            </HorizontalLayout>
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>
