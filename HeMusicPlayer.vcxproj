@@ -43,6 +43,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Works\DuiLib\duilib\DuiLib;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Works\DuiLib\duilib\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -103,17 +105,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BalanceUI.h" />
     <ClInclude Include="HeMusicPlayer.h" />
     <ClInclude Include="HeMusicPlayerDlg.h" />
     <ClInclude Include="include\libzplay.h" />
+    <ClInclude Include="LyricUI.h" />
     <ClInclude Include="MusicInfo.h" />
+    <ClInclude Include="PlayControlUI.h" />
+    <ClInclude Include="PlayListUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UI\BitmapSlider.h" />
     <ClInclude Include="UI\Label.h" />
     <ClInclude Include="UI\PictureCtrl.h" />
     <ClInclude Include="UI\SkinButton.h" />
-    <ClInclude Include="UI\SlideButton.h" />
     <ClInclude Include="UI\StaticTime.h" />
     <ClInclude Include="UI\VolumeButton.h" />
     <ClInclude Include="Util\CommonUtil.h" />
@@ -122,17 +128,21 @@
     <ClInclude Include="MsgDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BalanceUI.cpp" />
     <ClCompile Include="HeMusicPlayer.cpp" />
     <ClCompile Include="HeMusicPlayerDlg.cpp" />
+    <ClCompile Include="LyricUI.cpp" />
     <ClCompile Include="MusicInfo.cpp" />
+    <ClCompile Include="PlayControlUI.cpp" />
+    <ClCompile Include="PlayListUI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UI\BitmapSlider.cpp" />
     <ClCompile Include="UI\Label.cpp" />
     <ClCompile Include="UI\PictureCtrl.cpp" />
     <ClCompile Include="UI\SkinButton.cpp" />
-    <ClCompile Include="UI\SlideButton.cpp" />
     <ClCompile Include="UI\StaticTime.cpp" />
     <ClCompile Include="UI\VolumeButton.cpp" />
     <ClCompile Include="Util\CommonUtil.cpp" />
@@ -151,10 +161,18 @@
     <Image Include="res\fastReward.ico" />
     <Image Include="res\HeMusicPlayer.ico" />
     <Image Include="res\icon3.ico" />
+    <Image Include="res\mp_channel.bmp" />
+    <Image Include="res\mp_channel_active.bmp" />
+    <Image Include="res\mp_thumb.bmp" />
+    <Image Include="res\mp_thumb_active.bmp" />
     <Image Include="res\nextSong.ico" />
     <Image Include="res\pause.ico" />
     <Image Include="res\play.ico" />
     <Image Include="res\preSong.ico" />
+    <Image Include="res\progress.bmp" />
+    <Image Include="res\progress_thumb.bmp" />
+    <Image Include="res\slidebackground_test.bmp" />
+    <Image Include="res\slide_test.bmp" />
     <Image Include="res\stop.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

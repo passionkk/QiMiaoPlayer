@@ -25,6 +25,9 @@
     <Filter Include="MsgDefine">
       <UniqueIdentifier>{aa1b7eff-1079-41c8-84e0-e6621998044f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Dialog">
+      <UniqueIdentifier>{311b174f-595e-4008-88f9-16446905c889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,9 +66,6 @@
     <ClInclude Include="UI\SkinButton.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\SlideButton.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\VolumeButton.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -80,6 +80,21 @@
     </ClInclude>
     <ClInclude Include="UI\StaticTime.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\BitmapSlider.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayControlUI.h">
+      <Filter>UI\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayListUI.h">
+      <Filter>UI\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="BalanceUI.h">
+      <Filter>UI\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="LyricUI.h">
+      <Filter>UI\Dialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +122,6 @@
     <ClCompile Include="UI\SkinButton.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\SlideButton.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\VolumeButton.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -121,6 +133,21 @@
     </ClCompile>
     <ClCompile Include="UI\StaticTime.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\BitmapSlider.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayControlUI.cpp">
+      <Filter>UI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayListUI.cpp">
+      <Filter>UI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="BalanceUI.cpp">
+      <Filter>UI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="LyricUI.cpp">
+      <Filter>UI\Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +189,30 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\progress.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\progress_thumb.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\slide_test.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\slidebackground_test.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\mp_channel.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\mp_channel_active.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\mp_thumb.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\mp_thumb_active.bmp">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

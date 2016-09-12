@@ -190,7 +190,13 @@ void CHeMusicPlayerDlg::InitCtrl()
 	m_sliderVolumn.SetPos(30);
 
 	m_sliderProgress.SetRange(0, 500);
-
+	m_sliderProgress.SetPageSize(200);
+	
+	/*bitmap 的slider
+	m_sliderProgress.SetBitmapChannel(IDB_BITMAP_CHANNEL, IDB_BITMAP_CHANNEL_ACTIVE);
+	m_sliderProgress.SetBitmapThumb(IDB_BITMAP_THUMB, IDB_BITMAP_THUMB_ACTIVE, 1);
+	m_sliderProgress.DrawFocusRect(FALSE);
+	m_sliderProgress.SetMargin(2, 3, 2, 0);*/
 	//播放时长
 	/*m_staticPlayTime.SetTextColor(RGB(0, 128, 255));
 	m_staticPlayTime.SetFontSize(10);
@@ -418,10 +424,12 @@ void CHeMusicPlayerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBa
 		{	
 			int nSeekPos = m_sliderProgress.GetPos();
 			CString strPos;
-			strPos.Format(L"Seek to Pos :%d\n", nSeekPos);
-
+			strPos.Format(L"Seek to Pos :%d, SB_CODE=%d\n", nSeekPos, nSBCode);
+			
 			if (nSBCode == TB_THUMBPOSITION || nSBCode == TB_PAGEUP || nSBCode == TB_PAGEDOWN)
+			//if (nSBCode == TB_ENDTRACK)
 			{
+				//TB_THUMBPOSITION 移动滑块到指定位置
 				{
 					CPoint ptCursor;
 					GetCursorPos(&ptCursor);
@@ -440,13 +448,15 @@ void CHeMusicPlayerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBa
 
 				m_player.Seek(nSeekPos, smFromBeginning);
 				m_bPressProgressSlider = false;
-				//OutputDebugString(L"onHScroll...set true.\n");
+				OutputDebugString(L"onHScroll...set true.\n");
 			}
 			if (nSBCode == TB_THUMBTRACK)
 			{
+				//TB_THUMBTRACK 用户正在拖动鼠标
 				m_staticPlayTime.SetWindowText(CHeMusicPlayerDlg::SecToTime(nSeekPos));
 				m_bPressProgressSlider = true;
-				//OutputDebugString(L"onHScroll...set false.\n");
+				//m_sliderProgress.Enable(false);
+				OutputDebugString(L"onHScroll...set false.\n");
 			}
 
 			OutputDebugString(strPos);
@@ -487,6 +497,7 @@ void CHeMusicPlayerDlg::player_proc(CMusicPlayer* pPlayer, PLAY_MSG msg, WPARAM 
 			if (!pDlg->m_bPressProgressSlider)
 			{
 				pDlg->m_sliderProgress.SetPos((int)lParam);
+				//pDlg->m_sliderProgress.Enable(true);
 				CString strTime = CHeMusicPlayerDlg::SecToTime((int)lParam);
 				pDlg->m_staticPlayTime.SetWindowText(strTime);
 				pDlg->m_nCurPlaySec = (int)lParam;

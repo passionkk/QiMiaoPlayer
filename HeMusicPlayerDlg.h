@@ -12,6 +12,8 @@
 #include "UI\SkinButton.h"
 #include "UI\Label.h"
 #include "UI\StaticTime.h"
+#include "UI\BitmapSlider.h"
+
 // CHeMusicPlayerDlg 对话框
 class CHeMusicPlayerDlg : public CDialogEx
 {
@@ -75,6 +77,7 @@ private:
 public:
 	CSkinButton		m_btnPlay;
 	CSliderCtrl		m_sliderProgress;
+	//CBitmapSlider	m_sliderProgress;
 	// 歌曲播放时长
 	CStatic			m_staticPlayTime;	//这里暂时使用默认的 static控件，未找到合适的控件
 	int				m_nCurPlaySec;		//当前播放时长
