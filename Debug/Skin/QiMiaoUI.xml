@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="310,186">
+    <VerticalLayout width="310" height="186" bkimage="file=&apos;player_skin.bmp&apos; mask=&apos;0xffff00ff&apos;">
+        <HorizontalLayout width="310" height="5" />
+        <HorizontalLayout width="310" height="17">
+            <HorizontalLayout width="230" height="17" />
+            <HorizontalLayout width="79" height="17">
+                <HorizontalLayout width="15" height="15" />
+                <Button name="minimode" width="17" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;minimode.bmp&apos; source=&apos;0,0,17,15&apos; mask=&apos;0xffff00ff&apos;" hotimage="file=&apos;minimode.bmp&apos; source=&apos;17,0,34,15&apos; mask=&apos;0xffff00ff&apos;" pushedimage="file=&apos;minimode.bmp&apos; source=&apos;34,0,51,15&apos; mask=&apos;0xffff00ff&apos;" />
+                <HorizontalLayout width="5" height="15" />
+                <Button name="minisize" width="17" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;minimize.bmp&apos; source=&apos;0,0,17,15&apos; mask=&apos;0xffff00ff&apos;" hotimage="file=&apos;minimize.bmp&apos; source=&apos;17,0,34,15&apos; mask=&apos;0xffff00ff&apos;" pushedimage="file=&apos;minimize.bmp&apos; source=&apos;34,0,51,15&apos; mask=&apos;0xffff00ff&apos;" focusedimage="file=&apos;minimize.bmp&apos; source=&apos;51,0,68,15&apos; mask=&apos;0xffff00ff&apos;" />
+                <HorizontalLayout width="5" height="15" />
+                <Button name="close" width="17" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;close.bmp&apos; source=&apos;2,0,15,15&apos;" hotimage="file=&apos;close.bmp&apos; source=&apos;17,0,34,15&apos; mask=&apos;0xffff00ff&apos;" pushedimage="file=&apos;close.bmp&apos; source=&apos;34,0,51,15&apos;" focusedimage="file=&apos;close.bmp&apos; source=&apos;51,0,68,15&apos;" />
+            </HorizontalLayout>
+        </HorizontalLayout>
+        <Label name="SongInfo" float="true" pos="9,29,0,0" width="60" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Label name="PlayTime" float="true" pos="241,27,0,0" width="60" height="14" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Button name="MuteBtn" float="true" pos="183,75,0,0" width="17" height="14" relativepos="186,73,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;mute.bmp&apos; source=&apos;0,0,17,14&apos;" hotimage="file=&apos;mute.bmp&apos; source=&apos;17,0,34,14&apos;" pushedimage="file=&apos;mute.bmp&apos; source=&apos;34,0,51,14&apos;" focusedimage="file=&apos;mute.bmp&apos; source=&apos;51,0,68,14&apos;" />
+        <Text name="VoiceInfo" float="true" pos="211,53,0,0" width="80" height="19" textpadding="2,0,2,0" align="wrap" />
+        <Button name="PlayListBtn" float="true" pos="202,95,0,0" width="20" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Button name="BalanceBtn" float="true" pos="235,95,0,0" width="20" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Button name="LyricBtn" float="true" pos="268,94,0,0" width="20" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Control name="SongCover" float="true" pos="13,57,0,0" width="148" height="53" />
+        <Slider name="VolumnSlider" float="true" pos="206,79,0,0" width="89" height="10" bkimage="progress2.bmp" relativepos="0,0,88,11" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" min="0" max="100" value="0" hor="true" thumbimage="file=&apos;progress_thumb.bmp&apos; source=&apos;1,1,10,10&apos;" thumbhotimage="file=&apos;progress_thumb.bmp&apos; source=&apos;12,1,21,10&apos;" thumbpushedimage="file=&apos;progress_thumb.bmp&apos; source=&apos;23,1,32,10&apos;" thumbsize="10,10" />
+        <Slider name="PlayProgressSlider" float="true" pos="13,121,0,0" width="286" height="3" relativepos="0,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" foreimage="progress_fill.bmp" min="0" max="100" value="0" hor="true" thumbimage="file=&apos;progress_thumb.bmp&apos; source=&apos;1,1,10,10&apos;" thumbhotimage="file=&apos;progress_thumb.bmp&apos; source=&apos;12,1,21,10&apos;" thumbpushedimage="file=&apos;progress_thumb.bmp&apos; source=&apos;23,1,32,10&apos;" thumbsize="10,10" />
+    </VerticalLayout>
+</Window>
