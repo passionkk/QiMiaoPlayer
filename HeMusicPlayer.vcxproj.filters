@@ -84,16 +84,16 @@
     <ClInclude Include="UI\BitmapSlider.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="PlayControlUI.h">
+    <ClInclude Include="UI\Dialog\DlgPlayControl.h">
       <Filter>UI\Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="PlayListUI.h">
+    <ClInclude Include="UI\Dialog\BalanceUI.h">
       <Filter>UI\Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="BalanceUI.h">
+    <ClInclude Include="UI\Dialog\LyricUI.h">
       <Filter>UI\Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="LyricUI.h">
+    <ClInclude Include="UI\Dialog\PlayListUI.h">
       <Filter>UI\Dialog</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,16 +137,16 @@
     <ClCompile Include="UI\BitmapSlider.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="PlayControlUI.cpp">
+    <ClCompile Include="UI\Dialog\DlgPlayControl.cpp">
       <Filter>UI\Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="PlayListUI.cpp">
+    <ClCompile Include="UI\Dialog\BalanceUI.cpp">
       <Filter>UI\Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="BalanceUI.cpp">
+    <ClCompile Include="UI\Dialog\LyricUI.cpp">
       <Filter>UI\Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="LyricUI.cpp">
+    <ClCompile Include="UI\Dialog\PlayListUI.cpp">
       <Filter>UI\Dialog</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,6 +13,8 @@
 #include "UI\Label.h"
 #include "UI\StaticTime.h"
 #include "UI\BitmapSlider.h"
+#include "UI\Dialog\DlgPlayControl.h"
+#include "UI\Dialog\PlayListUI.h"
 
 // CHeMusicPlayerDlg 对话框
 class CHeMusicPlayerDlg : public CDialogEx
@@ -83,4 +85,8 @@ public:
 	int				m_nCurPlaySec;		//当前播放时长
 	bool			m_bPressProgressSlider;	//左键按下进度滑块
 	CStatic			m_picSong;
+
+	//测试界面
+	CDlgPlayControl	m_DlgPlayControl;
+	CPlayListUI		m_DlgPlayList;
 };

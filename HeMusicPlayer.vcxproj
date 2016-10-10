@@ -105,18 +105,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BalanceUI.h" />
     <ClInclude Include="HeMusicPlayer.h" />
     <ClInclude Include="HeMusicPlayerDlg.h" />
     <ClInclude Include="include\libzplay.h" />
-    <ClInclude Include="LyricUI.h" />
     <ClInclude Include="MusicInfo.h" />
-    <ClInclude Include="PlayControlUI.h" />
-    <ClInclude Include="PlayListUI.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UI\BitmapSlider.h" />
+    <ClInclude Include="UI\Dialog\BalanceUI.h" />
+    <ClInclude Include="UI\Dialog\DlgPlayControl.h" />
+    <ClInclude Include="UI\Dialog\LyricUI.h" />
+    <ClInclude Include="UI\Dialog\PlayListUI.h" />
     <ClInclude Include="UI\Label.h" />
     <ClInclude Include="UI\PictureCtrl.h" />
     <ClInclude Include="UI\SkinButton.h" />
@@ -128,18 +128,18 @@
     <ClInclude Include="MsgDefine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BalanceUI.cpp" />
     <ClCompile Include="HeMusicPlayer.cpp" />
     <ClCompile Include="HeMusicPlayerDlg.cpp" />
-    <ClCompile Include="LyricUI.cpp" />
     <ClCompile Include="MusicInfo.cpp" />
-    <ClCompile Include="PlayControlUI.cpp" />
-    <ClCompile Include="PlayListUI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UI\BitmapSlider.cpp" />
+    <ClCompile Include="UI\Dialog\BalanceUI.cpp" />
+    <ClCompile Include="UI\Dialog\DlgPlayControl.cpp" />
+    <ClCompile Include="UI\Dialog\LyricUI.cpp" />
+    <ClCompile Include="UI\Dialog\PlayListUI.cpp" />
     <ClCompile Include="UI\Label.cpp" />
     <ClCompile Include="UI\PictureCtrl.cpp" />
     <ClCompile Include="UI\SkinButton.cpp" />

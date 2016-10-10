@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="310,186">
+    <VerticalLayout width="310" height="186" bkimage="file=&apos;playlist_skin.bmp&apos; mask=&apos;0xffff00ff&apos;">
+        <HorizontalLayout width="310" height="25">
+            <Button name="ButtonClose" float="true" pos="281,5,0,0" width="17" height="15" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;close.bmp&apos; source=&apos;2,0,15,15&apos; mask=&apos;0xffff00ff&apos;" hotimage="file=&apos;close.bmp&apos; source=&apos;17,0,34,15&apos; mask=&apos;0xffff00ff&apos;" pushedimage="file=&apos;close.bmp&apos; source=&apos;34,0,51,15&apos;" focusedimage="file=&apos;close.bmp&apos; source=&apos;51,0,68,15&apos;" />
+        </HorizontalLayout>
+        <HorizontalLayout width="310" height="25">
+            <Option float="true" pos="27,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;14,1,26,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="66,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;47,1,56,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="105,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;78,1,89,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="144,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;112,1,123,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="182,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;143,1,153,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="222,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;179,1,187,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Option float="true" pos="261,3,0,0" width="16" height="14" bkimage="file=&apos;playlist_toolbar.bmp&apos; source=&apos;210,1,222,11&apos; mask=&apos;0xffff00ff&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        </HorizontalLayout>
+        <HorizontalLayout width="310" height="136">
+            <VerticalLayout width="10" height="136" />
+            <VerticalLayout width="103" height="136">
+                <List name="ListCategory" width="103" height="136" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" header="hidden">
+                </List>
+            </VerticalLayout>
+            <VerticalLayout width="187" height="136">
+                <List name="ListSong" width="207" height="136" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF">
+                    <ListHeader />
+                </List>
+            </VerticalLayout>
+            <VerticalLayout width="10" height="136" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>

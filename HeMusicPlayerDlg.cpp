@@ -122,6 +122,29 @@ BOOL CHeMusicPlayerDlg::OnInitDialog()
 	InitPlayer();
 	InitPlayList();
 
+	//测试界面
+	//获取屏幕中央位置，依次放置窗口
+	int nScreenWidth, nScreenHeight;
+	nScreenWidth = GetSystemMetrics(SM_CXSCREEN); //屏幕宽度 
+	nScreenHeight = GetSystemMetrics(SM_CYSCREEN); //屏幕高度
+	int nWndLeft = (nScreenWidth - 186) / 2;
+	int nWndTop = (nScreenHeight - 310) / 2;
+	if (m_DlgPlayControl == NULL)
+	{
+		m_DlgPlayControl.Create(this->m_hWnd, NULL, UI_WNDSTYLE_DIALOG & (~(WS_BORDER | WS_CAPTION)), 0, nWndLeft, nWndTop, 310, 186);
+	}
+	//m_DlgPlayControl.CenterWindow();//设置窗体居中
+	m_DlgPlayControl.ShowWindow(TRUE); //显示窗体
+
+	nWndTop += 186;
+	if (m_DlgPlayList == NULL)
+	{
+		m_DlgPlayList.Create(this->m_hWnd, NULL, UI_WNDSTYLE_DIALOG & (~(WS_BORDER | WS_CAPTION)), 0, nWndLeft, nWndTop, 310, 186);
+	}
+	//m_DlgPlayList.CenterWindow();//设置窗体居中
+	m_DlgPlayList.ShowWindow(TRUE); //显示窗体
+
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
